@@ -1,0 +1,7 @@
+CREATE TABLE dbo.ToDo (
+    [Id] UNIQUEIDENTIFIER PRIMARY KEY,
+    [title] NVARCHAR (200) NOT NULL
+    )
+
+
+    
