@@ -21,7 +21,7 @@
       "direction": "in",
       "commandText": "DeleteToDo",
       "commandType": "StoredProcedure",
-      "parameters": "@Id = {Query.id}",
+      "parameters": "@Id = {Query.Id}",
       "connectionStringSetting": "SqlConnectionString"
     }
   ]
