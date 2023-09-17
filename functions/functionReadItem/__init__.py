@@ -6,6 +6,5 @@ def main(req: func.HttpRequest, functionReadItem: func.SqlRowList) -> func.HttpR
 
     return func.HttpResponse(
         json.dumps(rows),
-        status_code=200,
-        mimetype="application/json"
+        status_code=200
     )

@@ -1,3 +1,15 @@
+# insert row
+
+```
 {
-    "Id": "1", "title": "1"
+    "Id": 1, "title": "update1"
 }
+```
+
+# update row
+
+```
+{
+    "Id": 1, "title": "update2"
+}
+```
