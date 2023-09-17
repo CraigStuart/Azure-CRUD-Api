@@ -1,8 +1,8 @@
-# read row
+# read row with Id = 1
 
 ```
 {
-    "Id": 1, "title": "update1"
+    "Id": 1
 }
 ```
 
