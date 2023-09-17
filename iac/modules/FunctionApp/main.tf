@@ -51,5 +51,3 @@ resource "azurerm_function_app" "crud_app_fa" {
 }
 
 
-#todo create a function
-

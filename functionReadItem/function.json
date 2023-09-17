@@ -1,0 +1,28 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "readItem",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "select [Id], [order], [title], [completed] from dbo.ToDo where Id = @Id",
+      "commandType": "Text",
+      "parameters": "@Id = {Query.id}",
+      "connectionStringSetting": "SqlConnectionString"
+    }
+  ]
+}

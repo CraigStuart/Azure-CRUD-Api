@@ -1,0 +1,28 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    },
+    {
+      "name": "deleteItems",
+      "type": "sql",
+      "direction": "in",
+      "commandText": "DeleteToDo",
+      "commandType": "StoredProcedure",
+      "parameters": "@Id = {Query.id}",
+      "connectionStringSetting": "SqlConnectionString"
+    }
+  ]
+}
