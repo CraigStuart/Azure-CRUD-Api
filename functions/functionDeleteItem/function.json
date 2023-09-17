@@ -19,7 +19,7 @@
       "name": "functionDeleteItem",
       "type": "sql",
       "direction": "in",
-      "commandText": "DELETE FROM dbo.ToDo WHERE Id = @Id",
+      "commandText": "DELETE FROM dbo.ToDo WHERE Id = @Id; SELECT [Id], [title] FROM dbo.ToDo",
       "commandType": "Text",
       "parameters": "@Id = {Query.Id}",
       "connectionStringSetting": "SqlConnectionString"
