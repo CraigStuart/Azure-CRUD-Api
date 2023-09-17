@@ -1,20 +1,16 @@
-resource "azurerm_resource_group" "example" {
-  name     = "azure-functions-example-rg"
-  location = "West Europe"
-}
-
-resource "azurerm_storage_account" "example" {
-  name                     = "functionsappexamlpesa"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
+resource "azurerm_storage_account" "crud_app_sa" {
+  name                     = "functioncrudapp"
+  resource_group_name      = var.rg_name
+  location                 = var.region
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  tags = var.tags
 }
 
-resource "azurerm_app_service_plan" "example" {
-  name                = "azure-functions-example-sp"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_app_service_plan" "crud_app_sp" {
+  name                = "${var.environment}-functions-sp"
+  location            = var.region
+  resource_group_name = var.rg_name
   kind                = "Linux"
   reserved            = true
 
@@ -28,23 +24,32 @@ resource "azurerm_app_service_plan" "example" {
       kind
     ]
   }
+  tags = var.tags
 }
 
-resource "azurerm_function_app" "example" {
-  name                       = "example-azure-function"
-  location                   = azurerm_resource_group.example.location
-  resource_group_name        = azurerm_resource_group.example.name
-  app_service_plan_id        = azurerm_app_service_plan.example.id
-  storage_account_name       = azurerm_storage_account.example.name
-  storage_account_access_key = azurerm_storage_account.example.primary_access_key
+resource "azurerm_function_app" "crud_app_fa" {
+  name                       = "${var.environment}-function-app"
+  location                   = var.region
+  resource_group_name        = var.rg_name
+  app_service_plan_id        = azurerm_app_service_plan.crud_app_sp.id
+  storage_account_name       = azurerm_storage_account.crud_app_sa.name
+  storage_account_access_key = azurerm_storage_account.crud_app_sa.primary_access_key
   os_type                    = "linux"
   version                    = "~4"
+  https_only                 = true
 
-  app_settings {
-    FUNCTIONS_WORKER_RUNTIME = "python"
+  connection_string {
+    name  = "SqlConnectionString"
+    type  = "SQL"
+    value = "${var.fcn_connection_string}"
   }
 
   site_config {
     linux_fx_version = "python|3.9"
   }
+  tags = var.tags
 }
+
+
+#todo create a function
+

@@ -6,3 +6,4 @@ tags = {
   Managed-By  = "Terraform"
 }
 
+location = "East US"
