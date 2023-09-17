@@ -1,3 +1,4 @@
+# Create a standard storage account
 resource "azurerm_storage_account" "crud_app_sa" {
   name                     = "functioncrudapp"
   resource_group_name      = var.rg_name
@@ -7,6 +8,7 @@ resource "azurerm_storage_account" "crud_app_sa" {
   tags = var.tags
 }
 
+# Create a service plan
 resource "azurerm_app_service_plan" "crud_app_sp" {
   name                = "${var.environment}-functions-sp"
   location            = var.region
@@ -27,6 +29,7 @@ resource "azurerm_app_service_plan" "crud_app_sp" {
   tags = var.tags
 }
 
+# Create a function app
 resource "azurerm_function_app" "crud_app_fa" {
   name                       = "${var.environment}-function-app"
   location                   = var.region
@@ -50,4 +53,21 @@ resource "azurerm_function_app" "crud_app_fa" {
   tags = var.tags
 }
 
+# Create a api managment to expose the functions
+resource "azurerm_api_management" "default" {
+  name                       = "${var.environment}-api-management"
+  location                   = var.region
+  resource_group_name        = var.rg_name
+  publisher_name             = "My Company"
+  publisher_email            = "craigstuart@icloud.com"
+  sku_name                   = "Developer_1"
+}
 
+# Create a api managment backend to the functions
+resource "azurerm_api_management_backend" "default" {
+  name                       = "${var.environment}-api-management-backend"
+  location                   = var.region
+  resource_group_name        = var.rg_name
+  protocol                   = "https"
+  url                        = "https://${azurerm_function_app.crud_app_fa.name}.azurewebsites.net/api/"
+}

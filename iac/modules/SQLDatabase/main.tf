@@ -6,6 +6,7 @@ resource "azurerm_user_assigned_identity" "default" {
   resource_group_name = var.rg_name
 }
 
+# Create a sql server instance
 resource "azurerm_mssql_server" "default" {
   name                         = "mssql-server-resource"
   location                     = var.region
@@ -28,7 +29,7 @@ resource "azurerm_mssql_server" "default" {
   primary_user_assigned_identity_id            = azurerm_user_assigned_identity.default.id
 }
 
-# Create a key vault with access policies which allow for the current user to get, list, create, delete, update, recover, purge and getRotationPolicy for the key vault key and also add a key vault access policy for the Microsoft Sql Server instance User Managed Identity to get, wrap, and unwrap key(s)
+# Create a key vault with access policies which allow for the current user to get, list, create, delete, update, recover, purge and getRotationPolicy for the key vault key.
 resource "azurerm_key_vault" "default" {
   name                        = "crud-app-sqlserver-vault"
   location                    = var.region
@@ -56,6 +57,7 @@ resource "azurerm_key_vault" "default" {
 
 }
 
+# Create a key
 resource "azurerm_key_vault_key" "default" {
   depends_on = [azurerm_key_vault.default]
 
@@ -67,6 +69,7 @@ resource "azurerm_key_vault_key" "default" {
   key_opts = ["unwrapKey", "wrapKey"]
 }
 
+# Create mssql database leveraging the sql server
 resource "azurerm_mssql_database" "db" {
   name      = "${var.environment}-mssql-db"
   server_id = azurerm_mssql_server.default.id
