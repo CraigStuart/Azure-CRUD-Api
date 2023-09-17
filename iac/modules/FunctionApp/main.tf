@@ -66,8 +66,9 @@ resource "azurerm_api_management" "default" {
 # Create a api managment backend to the functions
 resource "azurerm_api_management_backend" "default" {
   name                       = "${var.environment}-api-management-backend"
-  location                   = var.region
+  api_management_name        = azurerm_api_management.default.name
   resource_group_name        = var.rg_name
-  protocol                   = "https"
+  protocol                   = "http"
   url                        = "https://${azurerm_function_app.crud_app_fa.name}.azurewebsites.net/api/"
 }
+
